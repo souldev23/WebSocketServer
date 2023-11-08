@@ -2,6 +2,7 @@ const lblOn =  document.querySelector('#lblOn ');
 const lblOff = document.querySelector('#lblOff');
 const txtMsg = document.querySelector('#txtMsg');
 const btnSend = document.querySelector('#btnSend');
+const email = document.querySelector('#txtEmail');
 
 const socketC = io();
 
@@ -22,6 +23,8 @@ socketC.on('send-msg', (payload) => {
 });
 
 btnSend.addEventListener('click', () => {
-    const msg = { 'MSG':txtMsg.value, 'User': 'soul23k@hotmail.com', 'DateTime': new Date()};
-    socketC.emit('send-msg', msg);
+    const msg = { 'MSG':txtMsg.value, 'User': email.value, 'DateTime': new Date()};
+    socketC.emit('send-msg', msg, (cbMsg) => {
+        console.log(cbMsg);
+    });
 });

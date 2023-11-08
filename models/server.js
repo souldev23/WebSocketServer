@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const { socketController } = require('../controllers/socketController');
 
 
 class Server {
@@ -40,25 +41,7 @@ class Server {
     }
 
     sockets() {
-        this.io.on('connection', s => {
-            console.log("Client connected");
-
-            s.on('disconnect', () => {
-                console.log('Client disconnected');
-            });
-
-            s.on('send-msg', (payload) => {
-                console.log(payload);
-                this.io.emit('send-msg', {'MSG':`Hello ${payload.User}, your message has been received`, 'DateTime': new Date()});
-            });
-            //either will send()
-            //s.send('Hello!');
-
-            //or with emit() and custom event names
-            
-
-
-        });
+        this.io.on('connection', socketController);
     }
 
     listen() {
